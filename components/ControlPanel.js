@@ -1,21 +1,19 @@
-// components/ControlPanel.js
+
 import React, { useState } from 'react';
 import { Paper, Button, Typography, Switch, FormControlLabel, Stack, Box, Divider, CircularProgress, Slider } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-// Updated FileInput to include Drag and Drop
+
 const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const commonFileHandler = (files) => {
     if (!isLoading && files && files.length > 0) {
-      // We need to create a synthetic event object that mimics a file input change event
-      // because the parent component's handlers (onAvatarUpload, onClothingUpload)
-      // expect event.target.files
+  
       const syntheticEvent = {
         target: {
           files: files,
-          id: id // Pass the id along if needed by the handler, though not strictly used in current HomePage
+          id: id 
         }
       };
       onChange(syntheticEvent);
@@ -33,7 +31,7 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
   const handleDragLeave = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // Check if the mouse is leaving to an outside element, not a child
+  
     if (e.currentTarget.contains(e.relatedTarget)) {
         return;
     }
@@ -42,7 +40,7 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
 
   const handleDragOver = (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Necessary to allow drop
+    e.stopPropagation(); 
   };
 
   const handleDrop = (e) => {
@@ -75,7 +73,7 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
         alignItems: 'center',
         width: '100%',
         mb: 1,
-        p: '16px', // Increased padding to make drop zone more prominent
+        p: '16px', 
         border: '2px dashed',
         borderColor: isDragging ? 'primary.main' : 'grey.400',
         borderRadius: 1,
@@ -83,13 +81,13 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
         backgroundColor: isDragging ? 'action.hover' : 'transparent',
         cursor: isLoading ? 'default' : 'pointer',
         opacity: isLoading ? 0.7 : 1,
-        textAlign: 'center', // Center text content
+        textAlign: 'center', 
       }}
       onDrop={isLoading ? undefined : handleDrop}
       onDragOver={isLoading ? undefined : handleDragOver}
       onDragEnter={isLoading ? undefined : handleDragEnter}
       onDragLeave={isLoading ? undefined : handleDragLeave}
-      // Make the entire box clickable to open file dialog
+      
       onClick={() => !isLoading && document.getElementById(id)?.click()}
     >
       <CloudUploadIcon sx={{ fontSize: 40, color: isDragging ? 'primary.main' : 'grey.600', mb: 1 }} />
@@ -103,7 +101,7 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
         type="file"
         hidden
         accept={accept}
-        onChange={handleInputChange} // Use the new handler
+        onChange={handleInputChange} 
         id={id}
         disabled={isLoading}
       />
@@ -113,29 +111,13 @@ const FileInput = ({ onChange, label, id, isLoading, accept = ".glb,.gltf" }) =>
           <Typography variant="caption">Loading...</Typography>
         </Box>
       )}
-      {/* Original button is now replaced by the styled drop zone text,
-          but you could keep it if you prefer the explicit button alongside drag & drop.
-          For this example, I've made the whole zone clickable.
-      */}
-      {/*
-      <Button
-        variant="contained"
-        component="label" // This makes the button act as a label for the hidden input
-        startIcon={<CloudUploadIcon />}
-        disabled={isLoading}
-        fullWidth
-        htmlFor={id} // This associates the button with the hidden input
-        sx={{ mt: 1 }} // Add some margin if you keep the button
-      >
-        {displayLabel}
-      </Button>
-      */}
+     
     </Box>
   );
 };
 
 
-// The rest of the ControlPanel component remains the same as your version
+
 export default function ControlPanel({
   onAvatarUpload,
   onClothingUpload,
@@ -173,7 +155,7 @@ export default function ControlPanel({
         Controls
       </Typography>
       <Divider sx={{ my: 1 }} />
-      <Stack spacing={1} sx={{ flexGrow: 1, overflowY: 'auto', p: 0.5 }}> {/* Reduced spacing for denser look */}
+      <Stack spacing={1} sx={{ flexGrow: 1, overflowY: 'auto', p: 0.5 }}> 
         <FileInput
           label="Upload Avatar" id="avatar-upload" onChange={onAvatarUpload}
           isLoading={isLoadingAvatar} accept=".glb,.gltf"
