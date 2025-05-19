@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js 3D Avatar & Clothing Fitter
 
-## Getting Started
+A simple web application built with Next.js, React, Three.js (via @react-three/fiber), and Material UI that allows users to upload a 3D avatar model and fit a piece of clothing onto it.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   **Upload Avatar:** Users can upload 3D avatar models in GLB/GLTF format.
+-   **Upload Clothing:** Users can upload 3D clothing models in GLB/GLTF format.
+-   **3D Viewport:**
+    -   Interactive camera (orbit, zoom, pan) using OrbitControls.
+    -   Avatar is automatically centered in the scene.
+    -   Clothing is positioned relative to the avatar (basic fit - relies on model origins).
+    -   Basic lighting setup (ambient and directional lights).
+    -   Environment mapping for reflections.
+-   **Material UI Control Panel:**
+    -   Buttons for uploading avatar and clothing.
+    -   Toggle switch to show/hide clothing.
+    -   Button to reset or clear the scene.
+    -   Loading indicators while models are being processed.
+-   **Bonus Features:**
+    -   **Drag-and-Drop Upload:** Files can be dragged onto the upload button areas.
+    -   **Garment Color Picker:** Change the color of the loaded garment.
+    -   **Loading Spinners:** Visual feedback during model loading.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+-   **Next.js:** React framework for server-side rendering, static site generation, and routing.
+-   **React.js:** JavaScript library for building user interfaces.
+-   **Three.js:** 3D graphics library.
+    -   **@react-three/fiber:** React reconciler for Three.js, enabling a declarative way to build 3D scenes.
+    -   **@react-three/drei:** Helper components and utilities for @react-three/fiber.
+-   **Material UI (MUI):** React component library for a clean and modern UI.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup and Installation
 
-## Learn More
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/YourGitHubUsername/nextjs-threejs-avatar-fitter.git
+    cd nextjs-threejs-avatar-fitter
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Code Structure
 
-## Deploy on Vercel
+-   `pages/index.js`: Main application page, manages state and layout.
+-   `components/ThreeScene.js`: Handles all 3D rendering logic using @react-three/fiber.
+    -   `Avatar` component: Loads and centers the avatar model.
+    -   `Clothing` component: Loads the clothing model, handles visibility and color changes.
+    -   `Model` component: Generic GLTF model loader using `useGLTF` and `Suspense`.
+-   `components/ControlPanel.js`: MUI-based UI for user interactions.
+    -   `FileInput` component: Reusable file input with drag-and-drop support.
+-   `pages/_app.js`: Custom Next.js App component for MUI theme integration.
+-   `src/theme.js`: MUI theme configuration.
+-   `public/`: For any static assets (though models are dynamically uploaded).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes on 3D Models
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   **Avatar Models:** For best results, use avatars in a T-pose or A-pose. The system will attempt to center them.
+-   **Clothing Models:** Clothing models should be designed to fit a standard, centered T-pose/A-pose avatar. The origin/pivot point of the clothing model is crucial for correct "basic fitting". If a clothing item appears at the avatar's feet, its origin is likely too low.
+-   **Format:** GLB (binary GLTF) is generally recommended as it's a single file. GLTF with separate .bin and texture files will also work if the paths are relative and correct.
+
+## (Optional) Screenshots/Video
